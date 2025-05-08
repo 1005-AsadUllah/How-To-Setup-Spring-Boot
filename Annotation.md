@@ -378,3 +378,87 @@ User created: Asad
 - @RequestBody is commonly used in APIs that receive complex input data.
 
 ---
+
+## 10. **@RequestParam Annotation**
+
+- **Purpose:**
+  `@RequestParam` is used to **extract values from query parameters** in the URL (like `?id=1&name=asad`) and bind them to method parameters.
+
+- Commonly used in **GET** or **POST** requests when data is sent as part of the **URL query string**.
+
+---
+
+### 📘 Example 1: Simple Query Parameter
+
+```java
+@RestController
+public class UserController {
+
+    @GetMapping("/greet")
+    public String greet(@RequestParam String name) {
+        return "Hello, " + name;
+    }
+}
+```
+
+✅ Visiting:
+
+```url
+http://localhost:8080/greet?name=Asad
+```
+
+Returns:
+
+```output
+Hello, Asad
+```
+
+---
+
+### 📘 Example 2: Using `@RequestParam` with Default Value (Optional Parameter)
+
+```java
+@GetMapping("/requestparam")
+public String requestParam(
+    @RequestParam String name,
+    @RequestParam(required = false, defaultValue = "") String email
+) {
+    return "Your Name is: " + name + " and Email is: " + email;
+}
+```
+
+✅ If you visit:
+
+```url
+http://localhost:8080/requestparam?name=Asad
+```
+
+🟢 Output:
+
+```out
+Your Name is: Asad and Email is:
+```
+
+✅ If you visit:
+
+```url
+http://localhost:8080/requestparam?name=Asad&email=asad@example.com
+```
+
+🟢 Output:
+
+```out
+Your Name is: Asad and Email is: asad@example.com
+```
+
+---
+
+### 🔍 Key Differences: `@PathVariable` vs `@RequestParam`
+
+| Feature        | `@PathVariable`        | `@RequestParam`           |
+| -------------- | ---------------------- | ------------------------- |
+| Source         | From **URL path**      | From **URL query string** |
+| Example URL    | `/user/10`             | `/user?id=10`             |
+| Annotation use | `@PathVariable int id` | `@RequestParam int id`    |
+
+---
